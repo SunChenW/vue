@@ -1,3 +1,37 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [VUE](#vue)
+  - [指令与选项与生命周期](#%E6%8C%87%E4%BB%A4%E4%B8%8E%E9%80%89%E9%A1%B9%E4%B8%8E%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
+  - [自定义键盘修饰符](#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%94%AE%E7%9B%98%E4%BF%AE%E9%A5%B0%E7%AC%A6)
+  - [自定义指令](#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4)
+  - [axios](#axios)
+- [VUE-CLI](#vue-cli)
+  - [安装及了解](#%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BA%86%E8%A7%A3)
+  - [主要文件](#%E4%B8%BB%E8%A6%81%E6%96%87%E4%BB%B6)
+  - [单文件组件定义及调用](#%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6%E5%AE%9A%E4%B9%89%E5%8F%8A%E8%B0%83%E7%94%A8)
+  - [路由的使用](#%E8%B7%AF%E7%94%B1%E7%9A%84%E4%BD%BF%E7%94%A8)
+    - [路由的基本使用](#%E8%B7%AF%E7%94%B1%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
+    - [多级路由：二级路由](#%E5%A4%9A%E7%BA%A7%E8%B7%AF%E7%94%B1%E4%BA%8C%E7%BA%A7%E8%B7%AF%E7%94%B1)
+    - [路由传值](#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%80%BC)
+    - [高级使用](#%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8)
+      - [多路由](#%E5%A4%9A%E8%B7%AF%E7%94%B1)
+      - [重定向](#%E9%87%8D%E5%AE%9A%E5%90%91)
+      - [别名](#%E5%88%AB%E5%90%8D)
+      - [404页面](#404%E9%A1%B5%E9%9D%A2)
+      - [路由中的钩子函数](#%E8%B7%AF%E7%94%B1%E4%B8%AD%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0)
+  - [vue过渡与动画](#vue%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB)
+    - [过渡](#%E8%BF%87%E6%B8%A1)
+    - [动画](#%E5%8A%A8%E7%94%BB)
+    - [动画的钩子函数](#%E5%8A%A8%E7%94%BB%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0)
+    - [多个标签的过渡](#%E5%A4%9A%E4%B8%AA%E6%A0%87%E7%AD%BE%E7%9A%84%E8%BF%87%E6%B8%A1)
+    - [列表过渡](#%E5%88%97%E8%A1%A8%E8%BF%87%E6%B8%A1)
+    - [使用css插件:animate.css](#%E4%BD%BF%E7%94%A8css%E6%8F%92%E4%BB%B6animatecss)
+  - [使用`element-ui`组件UI库](#%E4%BD%BF%E7%94%A8element-ui%E7%BB%84%E4%BB%B6ui%E5%BA%93)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # VUE
 
 官方太(๑•̀ㅂ•́)و✧棒，还轮不到我班门弄斧：<a href="https://cn.vuejs.org/v2/guide/">vue官方2.x文档</a>

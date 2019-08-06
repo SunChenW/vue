@@ -6,7 +6,13 @@
   - [指令与选项与生命周期](#%E6%8C%87%E4%BB%A4%E4%B8%8E%E9%80%89%E9%A1%B9%E4%B8%8E%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
   - [自定义键盘修饰符](#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%94%AE%E7%9B%98%E4%BF%AE%E9%A5%B0%E7%AC%A6)
   - [自定义指令](#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4)
-  - [axios](#axios)
+  - [组件的使用](#%E7%BB%84%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8)
+    - [is属性与 keep-alive](#is%E5%B1%9E%E6%80%A7%E4%B8%8E-keep-alive)
+  - [vue过渡与动画](#vue%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB)
+    - [动画的钩子函数](#%E5%8A%A8%E7%94%BB%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0)
+    - [多个标签的过渡](#%E5%A4%9A%E4%B8%AA%E6%A0%87%E7%AD%BE%E7%9A%84%E8%BF%87%E6%B8%A1)
+    - [列表过渡](#%E5%88%97%E8%A1%A8%E8%BF%87%E6%B8%A1)
+    - [使用css插件:animate.css](#%E4%BD%BF%E7%94%A8css%E6%8F%92%E4%BB%B6animatecss)
 - [VUE-CLI](#vue-cli)
   - [安装及了解](#%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BA%86%E8%A7%A3)
   - [主要文件](#%E4%B8%BB%E8%A6%81%E6%96%87%E4%BB%B6)
@@ -21,14 +27,8 @@
       - [别名](#%E5%88%AB%E5%90%8D)
       - [404页面](#404%E9%A1%B5%E9%9D%A2)
       - [路由中的钩子函数](#%E8%B7%AF%E7%94%B1%E4%B8%AD%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0)
-  - [vue过渡与动画](#vue%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB)
-    - [过渡](#%E8%BF%87%E6%B8%A1)
-    - [动画](#%E5%8A%A8%E7%94%BB)
-    - [动画的钩子函数](#%E5%8A%A8%E7%94%BB%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0)
-    - [多个标签的过渡](#%E5%A4%9A%E4%B8%AA%E6%A0%87%E7%AD%BE%E7%9A%84%E8%BF%87%E6%B8%A1)
-    - [列表过渡](#%E5%88%97%E8%A1%A8%E8%BF%87%E6%B8%A1)
-    - [使用css插件:animate.css](#%E4%BD%BF%E7%94%A8css%E6%8F%92%E4%BB%B6animatecss)
   - [使用`element-ui`组件UI库](#%E4%BD%BF%E7%94%A8element-ui%E7%BB%84%E4%BB%B6ui%E5%BA%93)
+  - [axios](#axios)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -81,56 +81,222 @@ directives:{
 }
 ```
 
-## axios
+## 组件的使用
 
-<a href="https://www.jianshu.com/p/7a9fbcbb1114">别人做的axios</a>
+- 父子组件传值`props + 自定义属性`
+- 子父组件传值`自定义事件 + $emit()`
+- 自由传值`空vue + $emit() +$on()`
+- 父链与子组件索引`$parent`   `$refs（ref=“son1”）`
+- 跟实例srore ,所有（子）组件都可以使用`this.$root`直接访问最外层vue实例
 
-<a href="http://www.axios-js.com/docs/nuxtjs-axios.html">axios在vuecli中使用</a>
 
-> vue相关的技术都有比较完美的文档，感谢大神！！！
 
-- axios 是一个独立的js插件，可以单独使用，也可以配置在框架中使用。axios的方法都是支持promise的，也就是可以`.then()`  使用回掉函数接受数据
+- 插槽
+- 具名插槽
+- 作用域插槽：
+  - 正常情况下，分发内容实在父组件中编译完成，然后传递给子组件的插槽。所以只能使用父组件的数据。
+  - 作用域插槽的使用时，让分发内容在编译时可以接受子组件的数据并使用。
 
 ```javascript
-//随便找个地方引入 axios
-//<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+//组件中代码
+<template id="tem">
+    <div id="">
+		<slot name="footer" v-bind:son="son"></slot>
+	</div>
+</template>
 
-//然后就可以放心的使用（如果你过jquery，下边的语法不用我解释的）
+//调用组件 在插槽中使用组件中的数据
 
-axios.get("/post",{}) //请求地址   发送到服务器的数据
-    .then(function(res){
-    	console.log(res.data) //res调用data获取响应数据
-	})
-//可以设置全局根目录
-axios.default.baseURL = "http://127.0.0.0:8080"
-//正常这些够用了，详情自己去百度吧 ↑↑
+<sc-t v-model="father" ref="sc">
+	<div slot="footer" slot-scope="props">footer
+		{{props.son}}
+	</div>
+</sc-t>
 ```
 
-- 如果不嫌麻烦（更不怕别人说你Low），在vue中完全可以将axios单独使用。以下是在中vue(vuecli)中***<u>正确</u>***使用axios的姿势！！
+### is属性与 keep-alive
+
+>
+> is 属性用来切换组件显示
+> keep-alive 用来保存缓存组件（被缓存的组件必须有name属性）
+>
+
+- li签会被scT组件替换
+
+```html
+<ul>
+	<li is="scT"></li> 
+</ul>
+```
+- sc-t 组件会被缓存，切换之后依旧保留之前的状态
+
+```html
+<ul>
+	<keep-alive>
+		<sc-t></sc-t>
+	</keep-alive>
+</ul>
+```
+
+## vue过渡与动画
+
+> vue的动画是在组件（DOM/标签），插入、创建、移除时添加。--------动画是在标签的显示与隐藏过程中添加。
+
+```html
+Vue 在插入、更新或者移除 DOM 时，提供多种不同方式的应用过渡效果。
+		--------
+	 	使用transition 包裹标签以后，在标签的显示和隐藏过程中都会自动添加一些类名，我们通过这些类名添加过渡动画。
+	 	.v-enter-active : 在标签显示过程中,都有效 ---添加transition属性，控制变化过程。
+	 	.v-enter:标签刚开始显示有效---设置标签开始显示的状态（状态1）
+	 	.v-enter-to:标签显示完成以后有效---设置标签的显示状态（状态2）
+	 	--------简单理解：显示以后        添加两个状态：通过过度控制状态变化
+	 	.v-leave-active: 控制整个隐藏过程
+	 	.v-leave:隐藏时添加的第一个状态
+	 	.v-leave-to:隐藏时添加的第二个状态
+	 	--------简单理解：隐藏之前      添加两个状态：通过过渡控制状态变化
+```
+
+```html
+-----
+<transition>
+    <p v-if="show" class="p1">hello</p>
+</transition>
+-----
+```
+
+> 动画的使用用法与过渡一致，只在`.v-enter-active`和`.v-leave-active`,设置`annimation`属性调用动画帧即可。
+>
+
+### 动画的钩子函数
+
+> vue的提供了多个钩子（事件），用来使用js设置动画。
+>
+> - 在before-enter钩子中设置初始状态  对应.v-enter
+> - 在enter钩子中设置结束状态，对应 .v-enter-to
 
 ```javascript
-//在main.js 中引用及配置
+<transition
+  v-on:before-enter="a"
+  v-on:enter="b"
+  v-on:after-enter="c"
+  v-on:enter-cancelled="enterCancelled"
+
+  v-on:before-leave="beforeLeave"
+  v-on:leave="leave"
+  v-on:after-leave="afterLeave"
+  v-on:leave-cancelled="leaveCancelled"
+>
+  <!-- ... -->
+</transition>
+```
+
+```javascript
+methods:{
+    a:function(el){
+        el.style.transition="all 5s";
+        el.style.width="100px";
+        el.style.height="100px";
+    },
+        b:function(el,done){
+            //随便获取一个标签相关的大小，位置 （js三大家族，特效专用属性）：触发动画执行
+            el.offsetHeight;
+            el.style.width="200px";
+            el.style.height="200px";
+            // done的作用是调用第三个事件，正常境况下第三个事件会延迟执行，这样可以让第三个之间立即执行
+            done()
+        },
+            c:function(el){
+                //				alert("过度完成")
+            }
+}
+```
+
+### 多个标签的过渡
+
+> transition中多个元素（组件）切换显示时，可是控制切换的方式。——同时执行、先隐藏后显示、先显示后隐藏....
+>
+> **默认情况下是第一个标签先执行过渡效果，第二个标签再执行过渡效果**。与显示还是隐藏无关。
+
+```html
+<transition mode="in-out">
+    <button v-if="show" key="a">
+        11111
+    </button>
+    <button v-else key="b">
+        22222
+    </button>
+</transition>
+```
+
+- 为了区别各个标签，需要给标签添加`key`属性
+- 动过过渡模式改变这个顺序
+  - `in-out`:先显示后隐藏
+  - `out-in`:先隐藏后显示
+
+### 列表过渡
+
+- 使用`transtion-group`包裹需要过渡的列表项
+
+```html
+<transition-group appear>
+    <div class="list" v-for="(list,index) in lists" v-bind:key="index">{{list}}</div>
+</transition-group>
+```
+
+- 设置过渡的方式与`transtion`中是一样的
+
+```css
+.v-enter-active{
+    transition: all 1s; 
+}
+.v-enter{
+    left: 1366px;
+}
+.v-enter-to{
+    left: 0;
+}
+```
+
+- 通过改变数据的数据，添加或者删除某一项
+
+### 使用css插件:animate.css
+
+- 作为包来配置
+  - 安装`npm install animate.css --save`
+  - 配置：在main中作为插件引入及配置
+
+```javascript
 import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import App from './App'
+import router from './router'
+//import animate from 'animate.css'
+Vue.config.productionTip = false
 
-Vue.use(VueAxios, axios)
-
-//然后就可以在任意地方随意的使用axios
-this.$http.get("/post",{})
-    .then(function(res){
-    	console.log(res.data)
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+//animate,
+  components: { App },
+  template: '<App/>'
 })
 
-//------------------------------------------我更喜欢这么使用axios 也比较好理解
-import Vue from 'vue'
-import axios from 'axios'
+```
 
-axios.defaults.baseURL = 'http://127.0.0.1:8080';
-Vue.prototype.$http = axios
+- 直接作为普通的css文件引入:一般就是在APP.vue 中为外部css引入
 
-//然后也是自由的翱翔
-this.$http.get(）
+```html
+<style scoped="scoped">
+	@import url("./assets/animate.css");
+</style>
+```
+
+- 使用：在过渡的`transition`或者是`transition-group`上直接调用插件的特效
+  - `enter-active-class="animated bounceIn" ` 设置进入的动画
+  - `leave-active-class="animated bounceOut"` 设置离开的动画
+
+```html
+<transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
 ```
 
 # VUE-CLI
@@ -431,165 +597,6 @@ export default {
 }
 ```
 
-## vue过渡与动画
-
-### 过渡
-
-> vue的动画是在组件（DOM/标签），插入、创建、移除时添加。--------动画是在标签的显示与隐藏过程中添加。
-
-```html
-Vue 在插入、更新或者移除 DOM 时，提供多种不同方式的应用过渡效果。
-		--------
-	 	使用transition 包裹标签以后，在标签的显示和隐藏过程中都会自动添加一些类名，我们通过这些类名添加过渡动画。
-	 	.v-enter-active : 在标签显示过程中,都有效 ---添加transition属性，控制变化过程。
-	 	.v-enter:标签刚开始显示有效---设置标签开始显示的状态（状态1）
-	 	.v-enter-to:标签显示完成以后有效---设置标签的显示状态（状态2）
-	 	--------简单理解：显示以后        添加两个状态：通过过度控制状态变化
-	 	.v-leave-active: 控制整个隐藏过程
-	 	.v-leave:隐藏时添加的第一个状态
-	 	.v-leave-to:隐藏时添加的第二个状态
-	 	--------简单理解：隐藏之前      添加两个状态：通过过渡控制状态变化
-```
-
-- 案例：
-
-```html
------
-<transition>
-    <p v-if="show" class="p1">hello</p>
-</transition>
------
-```
-
-### 动画
-
-用法与过度一致，只在`.v-enter-active`和`.v-leave-active`,设置`annimation`属性即可。
-
-### 动画的钩子函数
-
-```javascript
-<transition
-  v-on:before-enter="a"
-  v-on:enter="b"
-  v-on:after-enter="b"
-  v-on:enter-cancelled="enterCancelled"
-
-  v-on:before-leave="beforeLeave"
-  v-on:leave="leave"
-  v-on:after-leave="afterLeave"
-  v-on:leave-cancelled="leaveCancelled"
->
-  <!-- ... -->
-</transition>
-```
-
-```javascript
-methods:{
-    a:function(el){
-        el.style.transition="all 5s";
-        el.style.width="100px";
-        el.style.height="100px";
-    },
-        b:function(el,done){
-            //随便获取一个标签相关的大小，位置 （js三大家族，特效专用属性）：触发动画执行
-            el.offsetHeight;
-            el.style.width="200px";
-            el.style.height="200px";
-            // done的作用是调用第三个事件，正常境况下第三个事件会延迟执行，这样可以让第三个之间立即执行
-            done()
-        },
-            c:function(el){
-                //				alert("过度完成")
-            }
-}
-```
-
-### 多个标签的过渡
-
-```html
-<transition mode="in-out">
-    <button v-if="show" key="a" key="a">
-        11111
-    </button>
-    <button v-else key="b" key="b">
-        22222
-    </button>
-</transition>
-```
-
-- 为了区别各个标签，需要给标签添加`key`属性
-
-- 默认情况下，都是第一个标签先指定过渡效果，第二个标签再执行过渡效果。
-- 动过过渡模式改变这个顺序
-  - `in-out`:先显示后隐藏
-  - `out-in`:先隐藏后显示
-
-### 列表过渡
-
-- 使用`transtion-group`包裹需要过渡的列表项
-
-```html
-<transition-group appear>
-    <div class="list" v-for="(list,index) in lists" v-bind:key="index">{{list}}</div>
-</transition-group>
-```
-
-- 设置过渡的方式与`transtion`中是一样的
-
-```css
-.v-enter-active{
-    transition: all 1s; 
-}
-.v-enter{
-    left: 1366px;
-}
-.v-enter-to{
-    left: 0;
-}
-```
-
-- 通过改变数据的数据，添加或者删除某一项
-
-### 使用css插件:animate.css
-
-- 作为包来配置
-  - 安装`npm install animate.css --save`
-  - 配置：在main中作为插件引入及配置
-
-```javascript
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-//import animate from 'animate.css'
-Vue.config.productionTip = false
-
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-//animate,
-  components: { App },
-  template: '<App/>'
-})
-
-```
-
-- 直接作为普通的css文件引入:一般就是在APP.vue 中为外部css引入
-
-```html
-<style scoped="scoped">
-	@import url("./assets/animate.css");
-</style>
-```
-
-- 使用：在过渡的`transition`或者是`transition-group`上直接调用插件的特效
-  - `enter-active-class="animated bounceIn" ` 设置进入的动画
-  - `leave-active-class="animated bounceOut"` 设置离开的动画
-
-```html
-<transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
-```
-
 ## 使用`element-ui`组件UI库
 
 - 下载`npm i element-ui --save`
@@ -612,3 +619,56 @@ new Vue({
 - 使用
 
 > 配置完成之后，就可以直接复制使用需要的组件。
+
+## axios
+
+<a href="https://www.jianshu.com/p/7a9fbcbb1114">别人做的axios</a>
+
+<a href="http://www.axios-js.com/docs/nuxtjs-axios.html">axios在vuecli中使用</a>
+
+> vue相关的技术都有比较完美的文档，感谢大神！！！
+
+- axios 是一个独立的js插件，可以单独使用，也可以配置在框架中使用。axios的方法都是支持promise的，也就是可以`.then()`  使用回掉函数接受数据
+
+```javascript
+//随便找个地方引入 axios
+//<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+//然后就可以放心的使用（如果你过jquery，下边的语法不用我解释的）
+
+axios.get("/post",{}) //请求地址   发送到服务器的数据
+    .then(function(res){
+    	console.log(res.data) //res调用data获取响应数据
+	})
+//可以设置全局根目录
+axios.default.baseURL = "http://127.0.0.0:8080"
+//正常这些够用了，详情自己去百度吧 ↑↑
+```
+
+- 如果不嫌麻烦（更不怕别人说你Low），在vue中完全可以将axios单独使用。以下是在中vue(vuecli)中***<u>正确</u>***使用axios的姿势！！
+
+```javascript
+//在main.js 中引用及配置
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
+
+//然后就可以在任意地方随意的使用axios
+this.$http.get("/post",{})
+    .then(function(res){
+    	console.log(res.data)
+})
+
+//------------------------------------------我更喜欢这么使用axios 也比较好理解
+import Vue from 'vue'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://127.0.0.1:8080';
+Vue.prototype.$http = axios
+
+//然后也是自由的翱翔
+this.$http.get(）
+```
+

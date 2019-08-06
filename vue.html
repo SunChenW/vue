@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="vue.js"></script>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button v-on:click="change"></button>
+			<sc-t v-model="father" ref="sc">
+				<div slot="header">header</div>
+				<div slot="main">main</div>
+				<div slot="footer" slot-scope="son">footer
+					{{son.son}}
+				</div>
+			</sc-t>
+		</div>
+		
+		<template id="tem">
+			<div id="">
+				<h1 v-on:click="fa">
+					<slot name='header'></slot>
+					<slot name="main"></slot>
+					<slot name="footer" v-bind:son="son"></slot>
+				</h1>
+			</div>
+		</template>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					father:"father",
+					isshow:true,
+					msg:"父组件，没有公开的数据"
+				},
+				methods:{
+					change:function(e){
+						console.log(this.$refs.sc.son)
+					}
+				},
+				components:{
+					scT:{
+						props:["value"],
+						template:"#tem",
+						data:function(){
+							return {
+								son:"我是子组件自己的数据"
+							}
+						},
+						methods:{
+							fa:function(){
+								console.log(this.$root==this.$parent)
+							}
+						}
+					}
+				},
+				watch:{},
+				computed:{},
+				filters:{}
+			})
+		</script>
+	</body>
+</html>

@@ -7,3 +7,5 @@
 /vuecli/
 /vuerouter/
 .project
+*.html
+*.js

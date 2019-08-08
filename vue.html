@@ -4,64 +4,108 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<script src="vue.js"></script>
+		<script src="vue-router.js"></script>
+		<link rel="stylesheet" href="animate.css" />
 		<style type="text/css">
-			
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			[class ^= "zj"]{
+				background-color: pink;
+				margin: 10px 0;
+			}
+			.active{
+				display: inline-block;
+				padding: 10px;
+				background-color: deepskyblue;
+			}
+			/*.v-move{
+				transition: all 1s;
+			}
+			.v-leave-active,.v-leave,.v-leave-to{
+				position: absolute;
+				width: 100%;
+			}*/
 		</style>
 	</head>
 	<body>
 		<div id="app">
-			<button v-on:click="change"></button>
-			<sc-t v-model="father" ref="sc">
-				<div slot="header">header</div>
-				<div slot="main">main</div>
-				<div slot="footer" slot-scope="son">footer
-					{{son.son}}
-				</div>
-			</sc-t>
+			<router-link to="/yi" active-class="active">切换组件1</router-link>
+			<router-link tag="span" v-bind:to="{path:'/er',params:{username:123}}"  active-class="active">切换组件2</router-link>
+			<router-link to="/er/a3" active-class="active">切换组件2/1</router-link>
+			<router-link to="/er/a4" active-class="active">切换组件2/2</router-link>
+			<transition mode="out-in" enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+				<router-view>aaaa</router-view>
+			</transition>
+			<div>
+				{{$route.path}}
+			</div>
+			<!--<sc1></sc1>
+			<sc2></sc2>-->
+			<scr></scr>
 		</div>
-		
-		<template id="tem">
-			<div id="">
-				<h1 v-on:click="fa">
-					<slot name='header'></slot>
-					<slot name="main"></slot>
-					<slot name="footer" v-bind:son="son"></slot>
-				</h1>
+		<template id="tem1">
+			<div class="zj1">组件一</div>
+		</template>
+		<template id="tem2">
+			<div class="zj2">组件二
+				<transition mode="out-in" enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+					<router-view></router-view>
+				</transition>
+				
 			</div>
 		</template>
+		<template id="tem3">
+			<div class="zj3">二级组件1</div>
+		</template>
+		<template id="tem4">
+			<div class="zj4">二级组件2</div>
+		</template>
+		<template id="tem5">
+			<div class="zj5">使用render创建组件</div>
+		</template>
 		<script type="text/javascript">
+			Vue.component("scr",{
+				render:function(create){
+					return create("h1","我是render组件中的数据")
+				}
+			})
+			//组件
+//			Vue.component("sc1",{
+//				template:"#tem1"
+//			})
+			var sc1 = {template:"#tem1"}
+//			Vue.component("sc2",{
+//				template:"#tem2"
+//			})
+			var sc2 = {template:"#tem2"}
+			var sc3 = {template:"#tem3"}
+			var sc4 = {template:"#tem4"}
+			//路由
+			var router = new VueRouter({
+				routes:[
+					{path:"/yi",alias:"/",component:sc1,name:"/yi"},
+					{path:"/er",component:sc2,name:"/er",children:[
+						{path:"/",redirect:"/er/a3"},
+						{path:"a3",component:sc3},
+						{path:"a4",component:sc4},
+					]},
+				]
+			})
+			//实例
 			var vm = new Vue({
+				router,
 				el:"#app",
-				data:{
-					father:"father",
-					isshow:true,
-					msg:"父组件，没有公开的数据"
-				},
-				methods:{
-					change:function(e){
-						console.log(this.$refs.sc.son)
-					}
-				},
-				components:{
-					scT:{
-						props:["value"],
-						template:"#tem",
-						data:function(){
-							return {
-								son:"我是子组件自己的数据"
-							}
-						},
-						methods:{
-							fa:function(){
-								console.log(this.$root==this.$parent)
-							}
-						}
-					}
+				data:{},
+				methods:{},
+				updated:function(){
+					console.log(this.$route)
 				},
 				watch:{},
 				computed:{},
 				filters:{}
-			})
+			})	
 		</script>
 	</body>
 </html>

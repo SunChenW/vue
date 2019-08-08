@@ -7,28 +7,21 @@
   - [自定义键盘修饰符](#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%94%AE%E7%9B%98%E4%BF%AE%E9%A5%B0%E7%AC%A6)
   - [自定义指令](#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4)
   - [组件的使用](#%E7%BB%84%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8)
-    - [is属性与 keep-alive](#is%E5%B1%9E%E6%80%A7%E4%B8%8E-keep-alive)
   - [vue过渡与动画](#vue%E8%BF%87%E6%B8%A1%E4%B8%8E%E5%8A%A8%E7%94%BB)
     - [动画的钩子函数](#%E5%8A%A8%E7%94%BB%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0)
     - [多个标签的过渡](#%E5%A4%9A%E4%B8%AA%E6%A0%87%E7%AD%BE%E7%9A%84%E8%BF%87%E6%B8%A1)
     - [列表过渡](#%E5%88%97%E8%A1%A8%E8%BF%87%E6%B8%A1)
     - [使用css插件:animate.css](#%E4%BD%BF%E7%94%A8css%E6%8F%92%E4%BB%B6animatecss)
+  - [vue-router](#vue-router)
+    - [引用及使用](#%E5%BC%95%E7%94%A8%E5%8F%8A%E4%BD%BF%E7%94%A8)
+    - [路由传值](#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%80%BC)
+    - [高级使用](#%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8)
+  - [axios](#axios)
 - [VUE-CLI](#vue-cli)
   - [安装及了解](#%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BA%86%E8%A7%A3)
   - [主要文件](#%E4%B8%BB%E8%A6%81%E6%96%87%E4%BB%B6)
   - [单文件组件定义及调用](#%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6%E5%AE%9A%E4%B9%89%E5%8F%8A%E8%B0%83%E7%94%A8)
-  - [路由的使用](#%E8%B7%AF%E7%94%B1%E7%9A%84%E4%BD%BF%E7%94%A8)
-    - [路由的基本使用](#%E8%B7%AF%E7%94%B1%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
-    - [多级路由：二级路由](#%E5%A4%9A%E7%BA%A7%E8%B7%AF%E7%94%B1%E4%BA%8C%E7%BA%A7%E8%B7%AF%E7%94%B1)
-    - [路由传值](#%E8%B7%AF%E7%94%B1%E4%BC%A0%E5%80%BC)
-    - [高级使用](#%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8)
-      - [多路由](#%E5%A4%9A%E8%B7%AF%E7%94%B1)
-      - [重定向](#%E9%87%8D%E5%AE%9A%E5%90%91)
-      - [别名](#%E5%88%AB%E5%90%8D)
-      - [404页面](#404%E9%A1%B5%E9%9D%A2)
-      - [路由中的钩子函数](#%E8%B7%AF%E7%94%B1%E4%B8%AD%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0)
-  - [使用`element-ui`组件UI库](#%E4%BD%BF%E7%94%A8element-ui%E7%BB%84%E4%BB%B6ui%E5%BA%93)
-  - [axios](#axios)
+- [使用`element-ui`组件UI库](#%E4%BD%BF%E7%94%A8element-ui%E7%BB%84%E4%BB%B6ui%E5%BA%93)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -114,11 +107,12 @@ directives:{
 </sc-t>
 ```
 
-### is属性与 keep-alive
-
+> is属性与 keep-alive
 >
-> is 属性用来切换组件显示
-> keep-alive 用来保存缓存组件（被缓存的组件必须有name属性）
+> >
+> > is 属性用来切换组件显示
+> > keep-alive 用来保存缓存组件（被缓存的组件必须有name属性）
+> >
 >
 
 - li签会被scT组件替换
@@ -165,7 +159,15 @@ Vue 在插入、更新或者移除 DOM 时，提供多种不同方式的应用�
 ```
 
 > 动画的使用用法与过渡一致，只在`.v-enter-active`和`.v-leave-active`,设置`annimation`属性调用动画帧即可。
->
+
+- 手动控制动画的执行时间
+
+```html
+<transition :duration="1000">...</transition>
+<transition :duration="{ enter: 500, leave: 800 }">...</transition>
+```
+
+
 
 ### 动画的钩子函数
 
@@ -257,8 +259,6 @@ methods:{
 }
 ```
 
-- 通过改变数据的数据，添加或者删除某一项
-
 ### 使用css插件:animate.css
 
 - 作为包来配置
@@ -297,6 +297,287 @@ new Vue({
 
 ```html
 <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+```
+
+## vue-router
+
+ლ(′◉❥◉｀ლ)<a href="https://router.vuejs.org/zh/installation.html">美丽的官方文档</a>ლ(′◉❥◉｀ლ)
+
+> 路由的基本使用 ：这里是在vuecli中的使用写法。直接使用方式，大家参考上边的官网，然后再看这个就能知道我下边写的都是废话。
+
+### 引用及使用
+
+> vuecli中是改变了代码及文件的引用方式，但是代码的基本写法是没有变得，在你看过官方的直接使用之后，如果看下边的还觉得看不懂，我觉得你有必要去放松一会再回来看。
+>
+> 在`src/router/index.js`中进行路由的配置：
+
+```javascript
+import Vue from 'vue'
+import Router from 'vue-router'
+//引入需要的路由的组件
+import myMain from '@/components/myMain.vue'
+import myServer from '@/components/myServer.vue'
+
+Vue.use(Router)
+
+export default new Router({
+  routes: [//设置路由规则：页面中的路径及对应显示组件
+    { 
+      path: '/', //页面中切换的路径
+      name: 'myMain',
+      //调用的组件
+      component: myMain
+    },
+    {
+      path: '/server',
+      name: 'myServer',
+      component: myServer
+    },
+  ]
+})
+```
+
+- 在`App.vue`中调用组件：
+
+```html
+<template>
+  <div id="app">
+  		<my-header></my-header>
+  		<!--调用路由的组件-->
+  		<router-view></router-view>
+  		<my-footer></my-footer>
+  </div>
+</template>
+```
+
+- 在任意位置使用`router-link`标签设置类似锚点跳转的效果，既可实现路由切换：
+
+```html
+<li><router-link to="/">网站首页</router-link></li>
+<li><router-link to="/server">服务范围</router-link></li>
+```
+
+- `router-link`在编译之后显示为a标签。最终结果为`<a  href="#/">网站首页</a>`
+- 正在被点击的a标签会添加一个类名，代表这个a被激活。通常用来添加辅助效果。`<a data-v-9d1d3a2e="" href="#/" class="router-link-exact-active router-link-active">网站首页</a>`
+
+```css
+.router-link-active{
+    	/*将被选中的a设置为蓝色*/
+		background-color: deepskyblue;
+}
+```
+
+- 可以使用`vue-router`提供的属性`active-class='active'` 将默认的`router-link-active`更改为`active`
+
+```html
+<router-link to="/yi" active-class="active">切换组件1</router-link>
+```
+
+- 使用`tag`属性，将`router-link`显示为其他标签.`tag='span'`
+
+```html
+<router-link tag="span" to="/er" active-class="active">切换组件2</router-link>
+```
+
+- `vue-router`扩展的实例方法
+  - `this.$router.push("/server")`,切换路由
+  - `this.$router.replace("/server")`,切换路由，并且不会产生新的操作记录
+  - `this.$router.go(-1)`,切换路由：根据操作的记录，返回上一步
+
+> 多级路由：二级路由
+>
+> 在一级路由的基础上，设置二级路由：
+
+```javascript
+{
+      path: '/server',
+      name: 'myServer',
+      component: myServer,
+      children:[
+      	{path:"/",component:server01},  //对应的切换路由为 #/server/
+      	{path:"server02",component:server02}, //对应的切换路由为 #/server/server02
+      ]
+    },
+```
+
+- 二级路由只能显示在上一级路由对应的组件中：
+
+```html
+...
+<div class="content">
+	<h2>服务范围</h2>
+	<!--这是在myServer 中调用的-->
+	<router-view></router-view>
+</div>
+....
+```
+
+### 路由传值
+
+- 方式一：在页面中直接调用路由的name属性
+
+```javascript
+//路由规则中添加一个name属性
+{{path:"/yi",alias:"/",component:sc1,name:"/yi"}}
+//在页面中任意位置直接获取被切换路由的name值
+<div>
+	{{$route.name}}
+</div>
+```
+
+- 方式二：在切换按钮上使用`v-bind:to:{}`
+
+```html
+<!--切换按钮中设置：有两种使用方式-->
+<router-link tag="span" v-bind:to="{path:'/er',query:{username:123}}"  active-class="active">切换组件2</router-link>
+<router-link tag="span" v-bind:to="{name:'/er',params:{username:123}}"  active-class="active">切换组件2</router-link>
+
+<!--页面任意位置直接获取被切换路由的query/params 中的值-->
+<div>
+    {{$route.params.username}}
+    {{$route.query.username}}
+</div>
+```
+
+### 高级使用
+
+> 多路由
+
+- 组件定义
+
+```javascript
+components:{
+    default:change01,
+        z1:change02,
+            z2:c1
+}
+```
+
+- 组件显示
+
+```javascript
+<router-view name="z1"></router-view>
+<router-view name="z2"></router-view>
+<router-view></router-view>
+```
+
+> 重定向
+
+```javascript
+path: '/server',
+redirect:"/s"
+```
+
+> 别名
+
+```javascript
+//一个路由，可以匹配多个路径
+path: '/s',
+alias:"/server",
+```
+
+> 404页面
+
+```javascript
+path: '*',//匹配没有被路由到的的页面切换
+```
+
+> 路由中的钩子函数
+
+- 在index.js的路由选项中中，添加
+
+```javascript
+{
+      path: '/s',
+      alias:"/server",
+      components:{
+      	default:change01,
+      	z1:change02,
+      	z2:c1
+      },
+      beforeEnter:function(to,from,next){
+      	console.log(to) //要切换到的组件（路由）的信息
+      	console.log(from) //切换之前的路由的信息
+      	alert(213)
+      	next()
+      }
+    },
+```
+
+- 直接在组件中定义路由的钩子函数：
+
+```javascript
+export default {
+		name:"server",
+		 beforeRouteEnter:function(to,from,next){
+		 	alert("组件要显示了")
+		 	next()
+		 },
+		 beforeRouteLeave:function(to,from,next){
+		 	alert("组件要离开了")
+		 	next()
+		 }
+}
+```
+
+
+
+## axios
+
+<a href="https://www.jianshu.com/p/7a9fbcbb1114">别人做的axios</a>
+
+<a href="http://www.axios-js.com/docs/nuxtjs-axios.html">axios在vuecli中使用</a>
+
+> vue相关的技术都有比较完美的文档，感谢大神！！！
+
+- axios 是一个独立的js插件，可以单独使用，也可以配置在框架中使用。axios的方法都是支持promise的，也就是可以`.then()`  使用回掉函数接受数据
+
+```javascript
+//随便找个地方引入 axios
+//<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+//然后就可以放心的使用（如果你过jquery，下边的语法不用我解释的）
+
+axios.get("/post",{}) //请求地址   发送到服务器的数据
+    .then(function(res){
+    	console.log(res.data) //res调用data获取响应数据
+	})
+//可以设置全局根目录
+axios.default.baseURL = "http://127.0.0.0:8080"
+//正常这些够用了，详情自己去百度吧 ↑↑
+```
+
+- 如果不嫌麻烦（更不怕别人说你Low），在vue中完全可以将axios单独使用。以下是在中vue(vuecli)中***<u>正确</u>***使用axios的姿势！！
+
+```javascript
+//在main.js 中引用及配置
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
+
+//然后就可以在任意地方随意的使用axios 
+//发送get请求
+this.$http.get("/post",{params:{username:123}})
+    .then(function(res){
+    	console.log(res.data)
+	})
+//发送post请求
+this.$http.post("/post",{username:123})
+    .then(function(res){
+    	console.log(res.data)
+	})
+
+//------------------------------------------我更喜欢这么使用axios 也比较好理解
+import Vue from 'vue'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://127.0.0.1:8080';
+Vue.prototype.$http = axios
+
+//然后也是自由的翱翔
+this.$http.get(）
 ```
 
 # VUE-CLI
@@ -411,193 +692,7 @@ export default {
 </template>
 ```
 
-## 路由的使用
-
-### 路由的基本使用
-
-- 在`src/router/index.js`中进行路由的配置：
-
-```javascript
-import Vue from 'vue'
-import Router from 'vue-router'
-//引入需要的路由的组件
-import myMain from '@/components/myMain.vue'
-import myServer from '@/components/myServer.vue'
-
-Vue.use(Router)
-
-export default new Router({
-  routes: [//设置路由规则：页面中的路径及对应显示组件
-    { 
-      path: '/', //页面中切换的路径
-      name: 'myMain',
-      //调用的组件
-      component: myMain
-    },
-    {
-      path: '/server',
-      name: 'myServer',
-      component: myServer
-    },
-  ]
-})
-```
-
-- 在`App.vue`中调用组件：
-
-```html
-<template>
-  <div id="app">
-  		<my-header></my-header>
-  		<!--调用路由的组件-->
-  		<router-view></router-view>
-  		<my-footer></my-footer>
-  </div>
-</template>
-```
-
-- 在任意位置使用`router-link`标签设置类似锚点跳转的效果，既可实现路由切换：
-
-```html
-<li><router-link to="/">网站首页</router-link></li>
-<li><router-link to="/server">服务范围</router-link></li>
-```
-
-- `router-link`在编译之后显示为a标签。最终结果为`<a  href="#/">网站首页</a>`
-- 正在被点击的a标签会添加一个类名，代表这个a被激活。通常用来添加辅助效果。`<a data-v-9d1d3a2e="" href="#/" class="router-link-exact-active router-link-active">网站首页</a>`
-
-```css
-.nav .menu li a.router-link-active{
-    	/*将被选中的a设置为蓝色*/
-		background-color: deepskyblue;
-}
-```
-
-- 可以使用`vue-router`提供的属性`active-class='active'` 将默认的`router-link-active`更改为`active`
-- 使用`tag`属性，将`router-link`显示为其他标签.`tag='span'`
-- `vue-router`扩展的实例方法
-  - `this.$router.push("/server")`,切换路由
-  - `this.$router.replace("/server")`,切换路由，并且不会产生新的操作记录
-  - `this.$router.go(-1)`,切换路由：根据操作的记录，返回上一步
-
-### 多级路由：二级路由
-
-在一级路由的基础上，设置二级路由：
-
-```javascript
-{
-      path: '/server',
-      name: 'myServer',
-      component: myServer,
-      children:[
-      	{path:"/",component:server01},  //对应的切换路由为 #/server/
-      	{path:"server02",component:server02}, //对应的切换路由为 #/server/server02
-      ]
-    },
-```
-
-- 二级路由只能显示在上一级路由对应的组件中：
-
-```html
-...
-<div class="content">
-	<h2>服务范围</h2>
-	<!--这是在myServer 中调用的-->
-	<router-view></router-view>
-</div>
-....
-```
-
-### 路由传值
-
-- 传值教简单时，将需要传递的值定义在路由的name属性中。在页面中使用`{{$route.name}}`获取页面中正在显示的路由的name属性的值。
-- 传值较多，或者比较复杂时。使用`to`属性传值。
-  - `<router-link v-bind:to="{name:'index',params:{user:1}}" active-class="active" tag="span">跳转到临时页面</router-link>`
-    - 路由切换到具有相同name值的组件
-    - params中定义要传的值，调用方式为在页面中使用`{{$route.params.user}}`
-
-### 高级使用
-
-#### 多路由
-
-- 组件定义
-
-```javascript
-components:{
-    default:change01,
-        z1:change02,
-            z2:c1
-}
-```
-
-- 组件显示
-
-```javascript
-<router-view name="z1"></router-view>
-<router-view name="z2"></router-view>
-<router-view></router-view>
-```
-
-#### 重定向
-
-```javascript
-path: '/server',
-redirect:"/s"
-```
-
-#### 别名
-
-```javascript
-//一个路由，可以匹配多个路径
-path: '/s',
-alias:"/server",
-```
-
-#### 404页面
-
-```javascript
-path: '*',//匹配显示多有没有被路由到的的页面切换
-```
-
-#### 路由中的钩子函数
-
-- 在index.js的路由选项中中，添加
-
-```javascript
-{
-      path: '/s',
-      alias:"/server",
-      components:{
-      	default:change01,
-      	z1:change02,
-      	z2:c1
-      },
-      beforeEnter:function(to,from,next){
-      	console.log(to) //要切换到的组件（路由）的信息
-      	console.log(from) //切换之前的路由的信息
-      	alert(213)
-      	next()
-      }
-    },
-```
-
-- 直接在组件中定义路由的钩子函数：
-
-```javascript
-export default {
-		name:"server",
-		 beforeRouteEnter:function(to,from,next){
-		 	alert("组件要显示了")
-		 	next()
-		 },
-		 beforeRouteLeave:function(to,from,next){
-		 	alert("组件要离开了")
-		 	next()
-		 }
-}
-```
-
-## 使用`element-ui`组件UI库
+# 使用`element-ui`组件UI库
 
 - 下载`npm i element-ui --save`
 - 配置
@@ -619,56 +714,4 @@ new Vue({
 - 使用
 
 > 配置完成之后，就可以直接复制使用需要的组件。
-
-## axios
-
-<a href="https://www.jianshu.com/p/7a9fbcbb1114">别人做的axios</a>
-
-<a href="http://www.axios-js.com/docs/nuxtjs-axios.html">axios在vuecli中使用</a>
-
-> vue相关的技术都有比较完美的文档，感谢大神！！！
-
-- axios 是一个独立的js插件，可以单独使用，也可以配置在框架中使用。axios的方法都是支持promise的，也就是可以`.then()`  使用回掉函数接受数据
-
-```javascript
-//随便找个地方引入 axios
-//<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-//然后就可以放心的使用（如果你过jquery，下边的语法不用我解释的）
-
-axios.get("/post",{}) //请求地址   发送到服务器的数据
-    .then(function(res){
-    	console.log(res.data) //res调用data获取响应数据
-	})
-//可以设置全局根目录
-axios.default.baseURL = "http://127.0.0.0:8080"
-//正常这些够用了，详情自己去百度吧 ↑↑
-```
-
-- 如果不嫌麻烦（更不怕别人说你Low），在vue中完全可以将axios单独使用。以下是在中vue(vuecli)中***<u>正确</u>***使用axios的姿势！！
-
-```javascript
-//在main.js 中引用及配置
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-
-Vue.use(VueAxios, axios)
-
-//然后就可以在任意地方随意的使用axios
-this.$http.get("/post",{})
-    .then(function(res){
-    	console.log(res.data)
-})
-
-//------------------------------------------我更喜欢这么使用axios 也比较好理解
-import Vue from 'vue'
-import axios from 'axios'
-
-axios.defaults.baseURL = 'http://127.0.0.1:8080';
-Vue.prototype.$http = axios
-
-//然后也是自由的翱翔
-this.$http.get(）
-```
 
